@@ -1,6 +1,7 @@
 // main.cpp
 #include "Room.h"
 #include "Text_Stream.h"
+#include "Player.h"
 #include <iostream>
 #include <fstream>
 #include<string>
@@ -14,7 +15,7 @@ using std::string;
 using std::vector;
 
 
-// deal with console
+
 void remove_scrollbar_set_size()
 	{
 	HWND console = GetConsoleWindow();
@@ -33,64 +34,143 @@ void remove_scrollbar_set_size()
 	SetConsoleScreenBufferSize(console, new_size);
 	}
 
-//navigation
-int getDirection(int currentPlace)
-	{
 
-	cout << "1:north , 2: South, 3: West, 4: East" << endl;
-	int choise;
+int getDirection(int currentPlace, Room temp)
+	{
+	unsigned choise = 0;
+
+	do 
+		{		
+	cout << "|\t\t\t\t1:north , 2: South, 3: West, 4: East" << endl;
 	cin >> choise;
+		} while (choise < 1 || choise > 4);
 
 	if (choise == 1)
 		{
-		return currentPlace - 10;
+		if (temp.getmNorth() == true)
+			{
+			return currentPlace - 10;
+			}
+		else
+			{
+			std::cout << "|\t\t\t\tYour can't travel north!!!!!!" << std::endl;
+			std::cin;
+			return currentPlace;
+			}
 		}
 	else if (choise == 2)
 		{
-		return currentPlace + 10;
+		if (temp.getmSouth() == true)
+			{
+			return currentPlace + 10;
+			}
+		else
+			{
+			std::cout << "|\t\t\t\tYour can't travel south!!!!!!" << std::endl;
+			std::cin;
+			return currentPlace;
+			}
 		}
 	else if (choise == 3)
 		{
-		return currentPlace - 1;
+		if (temp.getmWest() == true)
+			{
+			return currentPlace - 1;
+			}
+		else
+			{
+			std::cout << "|\t\t\t\tYour can't travel westh!!!!!!" << std::endl;
+			std::cin;
+			return currentPlace;
+			}
 		}
 	else if (choise == 4)
 		{
-		return currentPlace + 1;
+		if (temp.getmEasth() == true)
+			{
+			return currentPlace + 1;
+			}
+		else
+			{
+			std::cout << "|\t\t\t\tYour can't travel East!!!!!!" << std::endl;
+			std::cin;
+			return currentPlace;
+			}
 		}
 	}
-void createRooms(vector<Room> room)
+
+
+	
+void size(int arr1[])
 	{
-	for (unsigned i = 0; i < 100; i++)
-		{
-		Room a;
-		a.setmPositon(i);
-		a.setmEasth(true);
-		a.setmNorth(true);
-		a.setmSouth(true);
-		a.setmWest(true);
-
-		room.push_back(a);
-		}
+	int size;
+	size = sizeof(arr1) / sizeof(arr1[0]);
+	cout << size << endl;
 	}
 
-//main
 int main()
 	{
-		remove_scrollbar_set_size();
+	remove_scrollbar_set_size();
+	vector<Room> room;
 
-		vector<Room> room;
+	Room tempRoom;
+	Player mainPlayer;
+	 int north[] = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9,12,30,31,32,39,60,61,65,66,80,81,88,89};
+	 int south[] = {10,11,12,17,19,48,49,50,51,55,56,70,71,73,74,75,76,90, 91, 92, 93, 94, 95, 96, 97, 98, 99 };
+	 int westh[] = { 0,3, 10,20,23, 27,30,37,38, 40, 47,48,50,57, 60,67,70,77,72,73,75, 80, 90 ,98};
+	 int east[] = { 1,9, 19,26, 29, 36,39, 46,49,56, 59,66, 69, 71,74,76,79, 82,89,92,97, 99 };
+
+	for (unsigned i = 0; i < 100; i++)
+		{
+		tempRoom.setmPositon(i);
+		tempRoom.setmNorth(true);
+		tempRoom.setmSouth(true);
+		tempRoom.setmWest(true);
+		tempRoom.setmEasth(true);
 		
-		createRooms(room);
-	
+		for (unsigned b = 0; b <(sizeof(north) / sizeof(north[0])); b++)
+			{
+			if (north[b] == i)
+				{
+				tempRoom.setmNorth(false);
+				}			
+			}
+		for (unsigned b = 0; b <(sizeof(south) / sizeof(south[0])); b++)
+			{
+			if (south[b] == i)
+				{
+				tempRoom.setmSouth(false);
+				}
+			}
+		for (unsigned b = 0; b <(sizeof(westh) / sizeof(westh[0])); b++)
+			{
+			if (westh[b] == i)
+				{
+				tempRoom.setmWest(false);
+				}
+			}
+		for (unsigned b = 0; b <(sizeof(east) / sizeof(east[0])); b++)
+			{
+			if (east[b] == i)
+				{
+				tempRoom.setmEasth(false);
+				}
+			}
+		room.push_back(tempRoom);
+		}
+
+	//loadFile_DelayLine("Map/Intro.txt");
+	//mainPlayer.createPlayer();
+	//Sleep(2000);
 
 	unsigned i = 0;
-	while ( i <100)
+	while (i < 100)
 		{
 		string fileName = "Map/" + std::to_string(room.at(i).getmPositon()) + ".txt";
 		loadFile(fileName);
 
-		i = getDirection(i);
-	//	Sleep(1000);
+		Room temp = room.at(i);
+		i = getDirection(i, temp);
 		}
 	return 0;
 	}

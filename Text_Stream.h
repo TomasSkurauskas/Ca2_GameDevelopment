@@ -6,5 +6,6 @@
 #include <iostream>
 
 void loadFile(std::string);
+void loadFile_DelayLine(std::string);
 
 #endif
