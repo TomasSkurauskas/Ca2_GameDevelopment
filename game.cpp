@@ -14,7 +14,7 @@ using std::string;
 using std::vector;
 
 
-
+// deal with console
 void remove_scrollbar_set_size()
 	{
 	HWND console = GetConsoleWindow();
@@ -33,7 +33,7 @@ void remove_scrollbar_set_size()
 	SetConsoleScreenBufferSize(console, new_size);
 	}
 
-
+//navigation
 int getDirection(int currentPlace)
 	{
 
@@ -58,19 +58,30 @@ int getDirection(int currentPlace)
 		return currentPlace + 1;
 		}
 	}
+void createRooms(vector<Room> room)
+	{
+	for (unsigned i = 0; i < 100; i++)
+		{
+		Room a;
+		a.setmPositon(i);
+		a.setmEasth(true);
+		a.setmNorth(true);
+		a.setmSouth(true);
+		a.setmWest(true);
 
+		room.push_back(a);
+		}
+	}
 
+//main
 int main()
 	{
 		remove_scrollbar_set_size();
+
 		vector<Room> room;
+		
+		createRooms(room);
 	
-		Room a;
-	for (unsigned i = 0; i < 100; i++)
-		{		
-		a.setmPositon(i);
-		room.push_back(a);
-		}
 
 	unsigned i = 0;
 	while ( i <100)
@@ -79,10 +90,8 @@ int main()
 		loadFile(fileName);
 
 		i = getDirection(i);
-		Sleep(1000);
+	//	Sleep(1000);
 		}
-		
-
 	return 0;
 	}
 
