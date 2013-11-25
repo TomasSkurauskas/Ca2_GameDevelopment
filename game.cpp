@@ -45,6 +45,7 @@ int getDirection(int currentPlace, Room temp)
 	cin >> choise;
 		} while (choise < 1 || choise > 4);
 
+
 	if (choise == 1)
 		{
 		if (temp.getmNorth() == true)
@@ -115,7 +116,8 @@ int main()
 
 	Room tempRoom;
 	Player mainPlayer;
-	 int north[] = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9,12,30,31,32,39,60,61,65,66,80,81,88,89};
+	 
+	int north[] = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9,12,30,31,32,39,60,61,65,66,80,81,88,89};
 	 int south[] = {10,11,12,17,19,48,49,50,51,55,56,70,71,73,74,75,76,90, 91, 92, 93, 94, 95, 96, 97, 98, 99 };
 	 int westh[] = { 0,3, 10,20,23, 27,30,37,38, 40, 47,48,50,57, 60,67,70,77,72,73,75, 80, 90 ,98};
 	 int east[] = { 1,9, 19,26, 29, 36,39, 46,49,56, 59,66, 69, 71,74,76,79, 82,89,92,97, 99 };
@@ -159,9 +161,9 @@ int main()
 		room.push_back(tempRoom);
 		}
 
-	//loadFile_DelayLine("Map/Intro.txt");
-	//mainPlayer.createPlayer();
-	//Sleep(2000);
+	loadFile_DelayLine("Map/Intro.txt");
+	mainPlayer.createPlayer();
+	Sleep(2000);
 
 	unsigned i = 0;
 	while (i < 100)
